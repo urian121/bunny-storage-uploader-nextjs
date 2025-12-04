@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bunny Storage Uploader (Next.js)
 
-## Getting Started
+Subidor mínimo y funcional de archivos a Bunny Storage con Next.js.
+Incluye un formulario simple y un endpoint `POST /api/upload`.
+Usa la Storage API (PUT con `AccessKey`) para enviar el archivo.
+Pensado para integración rápida y pruebas locales sin complejidad.
 
-First, run the development server:
+![dEMO](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/refs/heads/master/bunny-storage-uploader-nextjs.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Configuración
+
+1. Crea `.env.local` con:
+
+```
+BUNNY_ACCESS_KEY=tu_api_key
+BUNNY_STORAGE_ZONE=tu_storage_zone
+BUNNY_STORAGE_HOST=storage.bunnycdn.com
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instala y ejecuta:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Uso
 
-## Learn More
+- Abre `http://localhost:3000`.
+- Selecciona un archivo y pulsa "Subir archivo".
+- El backend hace `PUT https://storage.bunnycdn.com/{zone}/{filename}` con header `AccessKey`.
 
-To learn more about Next.js, take a look at the following resources:
+## Endpoint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `POST /api/upload` (multipart/form-data, campo `file`)
+- Respuesta: `{ message, path }`
