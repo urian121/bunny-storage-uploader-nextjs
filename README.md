@@ -1,4 +1,4 @@
-# Bunny Storage Uploader (Next.js)
+# Bunny Storage Uploader con Next.js
 
 Subidor mínimo y funcional de archivos a Bunny Storage con Next.js.
 Incluye un formulario simple y un endpoint `POST /api/upload`.
