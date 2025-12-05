@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { showToast } from "nextjs-toast-notify";
 
 export default function UploadForm() {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
     const file = e.currentTarget.file.files[0];
     if (!file) {
-      setMessage("Selecciona un archivo");
+      showToast.error("¡Selecciona un archivo!");
       return;
     }
 
@@ -18,13 +18,16 @@ export default function UploadForm() {
     formData.append("file", file);
 
     setLoading(true);
-    setMessage("");
     try {
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       const data = await res.json();
-      setMessage(res.ok ? (data.message || "Subida completada") : (data.error || "Error en la subida"));
+      if (!res.ok) {
+        showToast.error(data.error || "Error en la subida");
+        return;
+      }
+      showToast.success("El archivo se ha subido correctamente");
     } catch {
-      setMessage("Error de red");
+      showToast.error("Error de red");
     } finally {
       setLoading(false);
     }
@@ -40,7 +43,6 @@ export default function UploadForm() {
       >
         {loading ? "Subiendo..." : "Subir archivo"}
       </button>
-      {message && <div className="text-sm text-zinc-700 dark:text-zinc-300">{message}</div>}
     </form>
   );
 }
